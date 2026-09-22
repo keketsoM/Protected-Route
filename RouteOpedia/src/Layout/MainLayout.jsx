@@ -1,7 +1,14 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import Logo from "../assets/react.svg";
+import { getAuthState, logout } from "../Utility/authUtility";
+function MainLayout() {
+  const navigate = useNavigate();
+  const { isAuthenticated } = getAuthState();
 
-const MainLayout = () => {
+  function handleLogout() {
+    logout();
+    navigate("/");
+  }
   return (
     <nav className="navbar navbar-expand-sm bg-body-tertiary">
       <div className="container-fluid">
@@ -31,16 +38,35 @@ const MainLayout = () => {
                 Product
               </NavLink>
             </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/customerPortal">
+                Customer Portal
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/adminPortal">
+                Admin Portal
+              </NavLink>
+            </li>
           </ul>
-          <form className="d-flex" role="search">
-            <button className="btn btn-outline-success" type="submit">
-              Search
-            </button>
-          </form>
+          <div className="d-flex align-items-center gap-2">
+            {isAuthenticated ? (
+              <button
+                onClick={() => handleLogout()}
+                className="btn btn-outline-danger"
+              >
+                Logout
+              </button>
+            ) : (
+              <NavLink className="btn btn-primary" to="/login">
+                Login
+              </NavLink>
+            )}
+          </div>
         </div>
       </div>
     </nav>
   );
-};
+}
 
 export default MainLayout;

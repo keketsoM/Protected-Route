@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
-import { allProducts } from "../../data/Product";
+import { allProducts} from "../../data/Product";
 
 function ProductList({ filterType, title, description }) {
   const getFilteredProducts = () => {
     if (filterType === "all") {
       return allProducts;
     }
+    
     return allProducts.filter((p) => p.category === filterType);
   };
   return (
