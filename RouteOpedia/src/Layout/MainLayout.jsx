@@ -1,9 +1,9 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import Logo from "../assets/react.svg";
-import { getAuthState, logout } from "../Utility/authUtility";
+import { getAuthState, hasAnyRole, logout } from "../Utility/authUtility";
 function MainLayout() {
   const navigate = useNavigate();
-  const { isAuthenticated } = getAuthState();
+  const { isAuthenticated, currentUser } = getAuthState();
 
   function handleLogout() {
     logout();
@@ -38,25 +38,37 @@ function MainLayout() {
                 Product
               </NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/customerPortal">
-                Customer Portal
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/adminPortal">
-                Admin Portal
-              </NavLink>
-            </li>
+            {isAuthenticated && hasAnyRole("customer") && (
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/customerPortal">
+                  Customer Portal
+                </NavLink>
+              </li>
+            )}
+
+            {isAuthenticated && hasAnyRole("admin") && (
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/adminPortal">
+                  Admin Portal
+                </NavLink>
+              </li>
+            )}
           </ul>
           <div className="d-flex align-items-center gap-2">
             {isAuthenticated ? (
-              <button
-                onClick={() => handleLogout()}
-                className="btn btn-outline-danger"
-              >
-                Logout
-              </button>
+              <>
+                <span className="me-2 text-secondary small d-flex align-items-center">
+                  <i className="bi bi-person-circle me-1"></i>
+                  Hello, {currentUser?.name}
+                </span>
+
+                <button
+                  onClick={() => handleLogout()}
+                  className="btn btn-outline-danger"
+                >
+                  Logout
+                </button>
+              </>
             ) : (
               <NavLink className="btn btn-primary" to="/login">
                 Login

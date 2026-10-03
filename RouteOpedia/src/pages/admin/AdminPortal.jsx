@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 function AdminPortal() {
   return (
     <div>
@@ -20,10 +21,10 @@ function AdminPortal() {
             </ul>
           </div>
           <h3 className="mt-4">Quick Actions:</h3>
-          <a href="#" className="btn btn-warning">
+          <Link to="/customerPortal" className="btn btn-warning">
             Customer Portal <i className="bi bi-person-badge ms-1"></i> (try
             this as admin)
-          </a>
+          </Link>
         </div>
       </div>
     </div>

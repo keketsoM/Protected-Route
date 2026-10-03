@@ -1,9 +1,10 @@
-import { Navigate } from "react-router-dom";
+import { Navigate,useLocation } from "react-router-dom";
 import { getAuthState, hasAnyRole } from "../Utility/authUtility";
 function RoleBasedRoute(props) {
+  const location= useLocation();
   const { isAuthenticated, currentUser } = getAuthState();
   if (!isAuthenticated) {
-    return <Navigate to="/login"></Navigate>;
+    return <Navigate to="/login" state={{from:location}}></Navigate>;
   }
   if (!hasAnyRole(props.allowedRoles)) {
     return (
